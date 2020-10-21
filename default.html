@@ -1,0 +1,110 @@
+<!--
+COMP 20 Web Programming Fall 2020
+Homework 6 - Amicable Numbers
+Eliza Encherman
+
+Acknowledgements:
+TA Jun helped me make the form send the variable to JS
+https://www.tutorialrepublic.com/faq/how-to-find-the-sum-of-an-array-of-numbers-in-javascript.php
+
+
+-->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Amicable Numbers</title>
+</head>
+
+<form id="numberForm">
+    <input type="number" value="0" required="1" />
+    <input type="number" value="0" required="1" />
+    <input type="submit" id="submit"/>
+</form>
+
+<h2 id="answers"></h2>
+
+<script>
+    document.getElementById("submit").addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            checkIfAmicable();
+        }
+    );
+
+
+    var numbers, number1, number2;
+
+
+    function receiveNumbers() {
+        numbers = document.getElementById("numberForm");
+        number1 = parseInt(numbers[0].value);
+        number2 = parseInt(numbers[1].value);
+        document.getElementById("answers").innerHTML = (number1 + " " + number2 + "</br>");
+    }
+
+    function checkIfAmicable() {
+        receiveNumbers();
+        document.write("Number 1: " + number1 + ". Number 2: " + number2 + ".</br>");
+        num1Factors = getFactors(number1);
+        num2Factors = getFactors(number2);
+        document.write("Factors of " + number1 + ": ");
+        showArray(num1Factors);
+        document.write("Factors of " + number2 + ": ");
+        showArray(num2Factors);
+        sum1 = addArray(num1Factors);
+        sum2 = addArray(num2Factors);
+        var areOrNot = "";
+        if ((sum1 === number2) && (sum2 === number1))
+            areOrNot = " are ";
+        else
+            areOrNot = " are not "
+        
+        document.write("The factors of " + number1 + " sum to " + sum1 + " and the factors of " + number2 + " sum to " + sum2 + ". " + number1 + " and " + number2 + areOrNot + " amicable.");
+    }
+
+    function isFactor(number, possibleFactor) {
+        //document.write("checking if " + possibleFactor + " is a factor </br>");
+        if ((number % possibleFactor) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function showArray(array) {
+        //document.write("showing arrays </br>");
+        array.forEach(element => {
+            document.write(element + " ");
+        });
+        document.write("</br>");
+    }
+
+
+    function addArray(array) {
+        // document.write("adding array");
+        return array.reduce(function(a, b){
+            return a + b;
+        },0);
+    }
+
+
+    function getFactors(number) {
+        //document.write("getting factors for " + number1 + " and " + number2 + "</br>");
+        var factorArray = [];
+        for (let index = 1; index < number; index++) {
+            if (isFactor(number, index)) {
+                factorArray.push(index);
+            }
+        }
+        return factorArray;
+    }
+
+
+</script>
+
+
+
+
+</html>
